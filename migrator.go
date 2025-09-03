@@ -69,6 +69,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	pattern := os.Getenv("PATTERN")
+	if pattern == "" {
+		pattern = "*"
+	}
+
+	count, err := strconv.Atoi(os.Getenv("SCAN_BATCH_SIZE"))
+	if err != nil {
+		count = 0
+	}
+
 	// Source: Redis
 	src := redis.NewClient(&redis.Options{
 		Addr:     srcConfig.Addr,
@@ -98,7 +108,7 @@ func main() {
 	fmt.Printf("Connected to target Redis at %s (DB: %d)\n", dstConfig.Addr, dstConfig.DB)
 
 	// Scan all keys
-	iter := src.Scan(ctx, 0, "*", 500).Iterator()
+	iter := src.Scan(ctx, 0, pattern, int64(count)).Iterator()
 	for iter.Next(ctx) {
 		key := iter.Val()
 		val, err := src.Dump(ctx, key).Result()
