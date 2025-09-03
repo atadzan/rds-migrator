@@ -3,17 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/redis/go-redis/v9"
 )
-
-type RedisConfig struct {
-	Addr     string
-	Password string
-	DB       int
-}
 
 func getRedisConfig(prefix string) (*RedisConfig, error) {
 	addr := os.Getenv(prefix + "_ADDR")
@@ -41,6 +37,19 @@ func getRedisConfig(prefix string) (*RedisConfig, error) {
 		Password: password,
 		DB:       db,
 	}, nil
+}
+
+type RedisConfig struct {
+	Addr     string
+	Password string
+	DB       int
+}
+
+func init() {
+	// loads values from .env into the system
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
 }
 
 func main() {

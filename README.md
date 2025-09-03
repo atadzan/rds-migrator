@@ -83,15 +83,6 @@ cp env.example .env
 # Edit .env with your actual connection details
 ```
 
-### Method 2: YAML Configuration File
-
-Copy the example configuration file:
-
-```bash
-cp config.yaml.example config.yaml
-# Edit config.yaml with your actual connection details
-```
-
 ### Configuration Parameters
 
 | Parameter | Description | Required | Default |
@@ -102,39 +93,6 @@ cp config.yaml.example config.yaml
 | `TARGET_ADDR` | Target Redis host:port | Yes | - |
 | `TARGET_PASSWORD` | Target Redis password | Yes | - |
 | `TARGET_DB` | Target Redis database number | No | 0 |
-
-## 🚀 Usage
-
-### Loading Environment Variables
-
-If you're using a `.env` file, you can load it using a tool like `dotenv`:
-
-```bash
-# Install dotenv if you don't have it
-go install github.com/joho/godotenv/cmd/godotenv@latest
-
-# Run with dotenv
-dotenv ./migrator
-```
-
-Or source the environment variables manually:
-
-```bash
-source .env
-./migrator
-```
-
-### Basic Migration
-
-```bash
-./migrator
-```
-
-The tool will:
-1. Connect to the source Redis/Dragonfly instance
-2. Scan all available keys
-3. Migrate each key with its value and TTL to the target instance
-4. Display progress and any errors encountered
 
 ### Migration Process
 
